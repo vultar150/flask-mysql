@@ -7,5 +7,5 @@ mysql = MySQL()
 app.config['MYSQL_DATABASE_USER'] = 'vultar'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'password'
 app.config['MYSQL_DATABASE_DB'] = 'appdb'
-app.config['MYSQL_DATABASE_HOST'] = '172.18.0.2'
+app.config['MYSQL_DATABASE_HOST'] = 'mysql-server'
 mysql.init_app(app)

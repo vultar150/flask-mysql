@@ -1,20 +1,25 @@
 <doctype html>
-<title>Edit User - Python Flask MySQL CRUD</title>
-<h2>Edit User</h2>
+<title>Изменить информацию о студенте - Python Flask MySQL</title>
+<style>
+	body {
+		background-color:yellow;
+	}
+</style>
+<h2>Изменить информацию о студенте</h2>
 <form method="post" action="/update">
     <dl>
 		<p>
-			<input name="inputName" value="{{ row['user_name'] }}" type="text" placeholder="Name" autocomplete="off" required>
+			<input name="inputName" value="{{ row['student_name'] }}" type="text" placeholder="Имя" autocomplete="off" required>
 		</p>
 		<p>
-			<input name="inputEmail" value="{{ row['user_email'] }}" type="text" placeholder="Email" autocomplete="off" required>
+			<input name="inputEmail" value="{{ row['student_email'] }}" type="text" placeholder="Почта" autocomplete="off" required>
 		</p>
 		<p>
-			<input name="inputPassword" value="" type="password" placeholder="Password" autocomplete="off" required>
+			<input name="inputGroup" value="{{ row['student_group'] }}" type="text" placeholder="Группа" autocomplete="off" required>
 		</p>
     </dl>
     <p>
-		<input name="id" value="{{ row['user_id'] }}" type="hidden">
-		<input type="submit" value="Submit">
+		<input name="id" value="{{ row['student_id'] }}" type="hidden">
+		<input type="submit" value="Подтвердить">
 	</p>
 </form>

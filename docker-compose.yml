@@ -3,15 +3,20 @@ version: "3"
 services:
 
   mysql-server:
-    build: mysql-server/
+    container_name: mysql-server
+    hostname: mysql-server
+    image: mysql-server
     volumes:
-       - /home/vultar/progs/mysql-data:/var/lib/mysql
-    expose:
-      - "3306"
+      - mysql-data:/var/lib/mysql
+    build: mysql-server/
+    tty: true
     networks:
       - my-net
 
   flask-app:
+    container_name: flask-app
+    hostname: flask-app
+    image: flask-app
     build: flask-app/
     networks:
       - my-net
@@ -21,3 +26,6 @@ services:
 networks:
   my-net:
     external: true
+
+volumes:
+  mysql-data:

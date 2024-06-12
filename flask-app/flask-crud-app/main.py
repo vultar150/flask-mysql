@@ -5,31 +5,28 @@ from db_config import mysql
 from flask import flash, render_template, request, redirect
 from werkzeug.security import generate_password_hash, check_password_hash
 
-@app.route('/new_user')
-def add_user_view():
+@app.route('/new_student')
+def add_student_view():
 	return render_template('add.html')
 
 @app.route('/add', methods=['POST'])
-def add_user():
+def add_student():
 	try:
 		_name = request.form['inputName']
 		_email = request.form['inputEmail']
-		_password = request.form['inputPassword']
+		_group = request.form['inputGroup']
 		# validate the received values
-		if _name and _email and _password and request.method == 'POST':
-			#do not save password as a plain text
-			_hashed_password = generate_password_hash(_password)
-			# save edits
-			sql = "INSERT INTO user_table(user_name, user_email, user_password) VALUES(%s, %s, %s)"
-			data = (_name, _email, _hashed_password,)
+		if _name and _email and _group and request.method == 'POST':
+			sql = "INSERT INTO student_table(student_name, student_email, student_group) VALUES(%s, %s, %s)"
+			data = (_name, _email, _group,)
 			conn = mysql.connect()
 			cursor = conn.cursor()
 			cursor.execute(sql, data)
 			conn.commit()
-			flash('User added successfully!')
+			flash('Информация о студенте добавлена успешно!')
 			return redirect('/')
 		else:
-			return 'Error while adding user'
+			return 'Ошибка при добавлении информации о студенте'
 	except Exception as e:
 		print(e)
 	finally:
@@ -37,15 +34,15 @@ def add_user():
 		conn.close()
 
 @app.route('/')
-def users():
+def students():
 	try:
 		conn = mysql.connect()
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
-		cursor.execute("SELECT * FROM user_table")
+		cursor.execute("SELECT * FROM student_table")
 		rows = cursor.fetchall()
 		table = Results(rows)
 		table.border = True
-		return render_template('users.html', table=table)
+		return render_template('students.html', table=table)
 	except Exception as e:
 		print(e)
 	finally:
@@ -57,12 +54,12 @@ def edit_view(id):
 	try:
 		conn = mysql.connect()
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
-		cursor.execute("SELECT * FROM user_table WHERE user_id=%s", id)
+		cursor.execute("SELECT * FROM student_table WHERE student_id=%s", id)
 		row = cursor.fetchone()
 		if row:
 			return render_template('edit.html', row=row)
 		else:
-			return 'Error loading #{id}'.format(id=id)
+			return 'Ошибка загрузки #{id}'.format(id=id)
 	except Exception as e:
 		print(e)
 	finally:
@@ -70,28 +67,24 @@ def edit_view(id):
 		conn.close()
 
 @app.route('/update', methods=['POST'])
-def update_user():
+def update_student():
 	try:
 		_name = request.form['inputName']
 		_email = request.form['inputEmail']
-		_password = request.form['inputPassword']
+		_group = request.form['inputGroup']
 		_id = request.form['id']
 		# validate the received values
-		if _name and _email and _password and _id and request.method == 'POST':
-			#do not save password as a plain text
-			_hashed_password = generate_password_hash(_password)
-			print(_hashed_password)
-			# save edits
-			sql = "UPDATE user_table SET user_name=%s, user_email=%s, user_password=%s WHERE user_id=%s"
-			data = (_name, _email, _hashed_password, _id,)
+		if _name and _email and _group and _id and request.method == 'POST':
+			sql = "UPDATE student_table SET student_name=%s, student_email=%s, student_group=%s WHERE student_id=%s"
+			data = (_name, _email, _group, _id,)
 			conn = mysql.connect()
 			cursor = conn.cursor()
 			cursor.execute(sql, data)
 			conn.commit()
-			flash('User updated successfully!')
+			flash('Информация о студенте обновлена успешно!')
 			return redirect('/')
 		else:
-			return 'Error while updating user'
+			return 'Ошибка при обновлении информации о студенте!'
 	except Exception as e:
 		print(e)
 	finally:
@@ -99,13 +92,13 @@ def update_user():
 		conn.close()
 
 @app.route('/delete/<int:id>')
-def delete_user(id):
+def delete_student(id):
 	try:
 		conn = mysql.connect()
 		cursor = conn.cursor()
-		cursor.execute("DELETE FROM user_table WHERE user_id=%s", (id,))
+		cursor.execute("DELETE FROM student_table WHERE student_id=%s", (id,))
 		conn.commit()
-		flash('User deleted successfully!')
+		flash('Информация о студенте удалена успешно!')
 		return redirect('/')
 	except Exception as e:
 		print(e)
@@ -115,5 +108,4 @@ def delete_user(id):
 
 if __name__ == "__main__":
     # app.run()
-# Uncomment following line if it's needs to be accessible from browser by external world
 	app.run(host="0.0.0.0", port=80)
