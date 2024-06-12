@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+
+  mysql-server:
+    build: mysql-server/
+    volumes:
+       - /home/vultar/progs/mysql-data:/var/lib/mysql
+    expose:
+      - "3306"
+    networks:
+      - my-net
+
+  flask-app:
+    build: flask-app/
+    networks:
+      - my-net
+    depends_on:
+      - mysql-server
+
+networks:
+  my-net:
+    external: true
