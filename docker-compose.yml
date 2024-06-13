@@ -18,6 +18,8 @@ services:
     hostname: flask-app
     image: flask-app
     build: flask-app/
+    ports:
+      - "80:80"
     networks:
       - my-net
     depends_on:
@@ -25,7 +27,7 @@ services:
 
 networks:
   my-net:
-    external: true
+    driver: bridge
 
 volumes:
   mysql-data:
