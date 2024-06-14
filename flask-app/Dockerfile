@@ -10,5 +10,7 @@ RUN apt update && apt install -y git mysql-client-core-5.7 mysql-server python3 
 	pip3 install flask flask_table flask-mysql && \
 	chmod +x /home/vultar/run.sh
 
+EXPOSE 80
+
 ENTRYPOINT [ "sh", "/home/vultar/run.sh" ]
 

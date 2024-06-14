@@ -8,4 +8,6 @@ COPY . /home/vultar
 RUN apt update && apt install -y mysql-client-core-5.7 mysql-server sed && \
     chmod +x /home/vultar/run.sh
 
+EXPOSE 3306
+
 ENTRYPOINT [ "sh", "/home/vultar/run.sh" ]

@@ -9,6 +9,8 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
     build: mysql-server/
+    ports:
+      - "3306:3306"
     tty: true
     networks:
       - my-net
