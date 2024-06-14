@@ -1,2 +1,2 @@
 # flask-mysql
-lab1
+lab1 and lab2
