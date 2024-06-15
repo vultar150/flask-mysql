@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysql-server
+  name: mysql-deployment
   labels:
     app: mysql-server
 spec:
@@ -22,7 +22,6 @@ spec:
         - containerPort: 3306
         imagePullPolicy: IfNotPresent
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -34,4 +33,3 @@ spec:
   - protocol: TCP
     port: 3306
     targetPort: 3306
-  type: NodePort

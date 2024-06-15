@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flask-app
+  name: flask-app-deployment
   labels:
     app: flask-app
 spec:
@@ -19,18 +19,27 @@ spec:
         image: flask-app:latest
         ports:
         - containerPort: 80
+        env:
+        - name: DATABASE_USER
+          value: vultar
+        - name: DATABASE_PASSWORD
+          value: password
+        - name: DATABASE_DB
+          value: appdb
+        - name: DATABASE_HOST
+          value: mysql-server
         imagePullPolicy: IfNotPresent
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
   name: flask-app
 spec:
+  type: NodePort
   selector:
     app: flask-app
   ports:
   - protocol: TCP
     port: 80
     targetPort: 80
-  type: LoadBalancer
+    nodePort: 30100
