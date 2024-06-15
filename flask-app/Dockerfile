@@ -3,6 +3,11 @@ FROM ubuntu:18.04
 
 LABEL maintainer="vultar1500@gmail.com"
 
+ENV DATABASE_USER=vultar \
+    DATABASE_PASSWORD=password \
+	DATABASE_DB=appdb \
+	DATABASE_HOST=mysql-server
+
 COPY . /home/vultar
 
 # Update Ubuntu Software repository
